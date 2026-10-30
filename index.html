@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>big hug cegs</title>
+
   <!-- Google Fonts: Quicksand & Nunito (Arredondadas e Fofas) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -52,6 +54,7 @@
       }
     }
   </script>
+
   <style>
     body {
       background-color: #fdfbf9;
@@ -64,26 +67,33 @@
       text-transform: lowercase;
       -webkit-tap-highlight-color: transparent;
     }
+
     @keyframes floatWing {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-5px) rotate(4deg); }
     }
+
     .animate-wing {
       display: inline-block;
       animation: floatWing 3s ease-in-out infinite;
     }
+
     @keyframes pulseSoft {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.65; transform: scale(0.97); }
     }
+
     .animate-pulse-soft {
       animation: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col justify-between selection:bg-angel-turquoiseLight selection:text-angel-turquoiseDark">
+
   <!-- Container Principal Mobile-First -->
   <main class="w-full max-w-md mx-auto px-5 pt-10 pb-16 flex-grow">
+
     <!-- Cabeçalho Angelical -->
     <header class="text-center mb-8">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-angel-lilacLight border border-angel-lilac/60 text-angel-lilacText text-xs font-bold mb-3 shadow-sm">
@@ -107,6 +117,7 @@
           <span>🔍</span>
           <span>qual é o seu user na planilha?</span>
         </label>
+
         <div class="relative flex items-center">
           <span class="absolute left-4 text-angel-turquoise font-bold text-lg select-none">@</span>
           <input
@@ -120,13 +131,14 @@
             required
           />
         </div>
+
         <button
           type="submit"
           id="submitBtn"
           class="w-full py-3.5 px-6 rounded-2xl bg-[#72becf] hover:bg-angel-turquoiseDark active:scale-[0.98] text-white font-bold text-sm shadow-md shadow-angel-turquoise/25 transition-all flex items-center justify-center gap-2 mt-1"
         >
           <span>buscar minhas cegs</span>
-          <span>☁️</span>
+          <span>🤍</span>
         </button>
       </form>
     </section>
@@ -143,7 +155,7 @@
     <!-- Mensagem de Erro / Aviso -->
     <section id="errorState" class="hidden">
       <div class="bg-angel-pinkLight border-2 border-angel-pink rounded-3xl p-5 text-center shadow-sm">
-        <div class="text-2xl mb-2">🌸</div>
+        <div class="text-2xl mb-2">🥺</div>
         <p id="errorMessage" class="text-sm font-bold text-angel-pinkAlertText"></p>
       </div>
     </section>
@@ -151,7 +163,7 @@
     <!-- Estado Vazio (Nenhuma CEG encontrada) -->
     <section id="emptyState" class="hidden">
       <div class="bg-white/90 rounded-3xl p-7 text-center shadow-soft border border-angel-yellow">
-        <div class="text-3xl mb-2">🐣</div>
+        <div class="text-3xl mb-2">☁️</div>
         <p class="text-sm font-bold text-angel-text">nenhuma ceg encontrada para <span id="emptyUserSpan" class="text-angel-turquoise"></span></p>
         <p class="text-xs text-angel-muted mt-1.5 leading-relaxed">
           verifique se digitou seu @ certinho como está na planilha ou se você já possui claims registrados.
@@ -167,14 +179,16 @@
         </p>
         <span id="resultCountBadge" class="text-xs font-bold bg-angel-lilacLight text-angel-lilacText px-2.5 py-0.5 rounded-full"></span>
       </div>
+
       <div id="cardsContainer" class="space-y-4"></div>
     </section>
+
   </main>
 
-  <!-- MODAL DE IMAGENS DA CEG (Fixa os itens no topo para consulta fácil!) -->
+  <!-- MODAL DE IMAGENS DA CEG (Exclusivo para CEGs Nacionais - Foto do Set) -->
   <div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#5c546a]/40 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-soft border-2 border-angel-lilac overflow-hidden flex flex-col max-h-[88vh]">
-      
+
       <!-- Topo Fixo do Modal: Nome da CEG + Seus Itens em Destaque -->
       <div class="bg-gradient-to-r from-angel-skyLight via-angel-lilacLight/60 to-angel-pinkLight/60 px-5 py-4 border-b border-angel-lilac/40 shrink-0">
         <div class="flex items-start justify-between gap-2">
@@ -195,17 +209,18 @@
               itens: <span id="modalItemsList" class="text-angel-turquoiseDark"></span>
             </p>
           </div>
-          <span class="text-lg select-none">🔍</span>
+          <span class="text-lg select-none">🪪</span>
         </div>
       </div>
 
-      <!-- Corpo Rolável com as Fotos do Set / Previews / Proofs -->
+      <!-- Corpo Rolável com a Foto do Set -->
       <div id="modalImagesBody" class="p-5 overflow-y-auto space-y-4 flex-grow bg-angel-bg/60">
         <!-- Estado de Carregamento das Fotos -->
         <div id="modalLoading" class="py-10 text-center">
           <div class="text-3xl mb-2 animate-wing">🪽</div>
-          <p class="text-xs font-bold text-angel-text">buscando as fotos na planilha...</p>
+          <p class="text-xs font-bold text-angel-text">buscando a foto do set na planilha...</p>
         </div>
+
         <!-- Galeria de Fotos -->
         <div id="modalGallery" class="space-y-4"></div>
       </div>
@@ -214,8 +229,9 @@
   </div>
 
   <!-- Rodapé Minimalista -->
-  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium">
-    <p>feito com 🩵 para a comunidade big hug cegs</p>
+  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium space-y-1">
+    <p>feito com 🤍 para a comunidade big hug cegs</p>
+    <p>made with &lt;3 by hanniesjar and fbcrisimhere</p>
   </footer>
 
   <!-- Script Principal -->
@@ -223,7 +239,7 @@
     // ============================================================================
     // COLE A URL DO SEU WEB APP DO GOOGLE APPS SCRIPT AQUI:
     // ============================================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPIewOfAwnwQ58tmHtEob3bNBA/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPlewOfAwnwQ58tmHtEob3bNBA/exec';
 
     const searchForm = document.getElementById('searchForm');
     const userInput = document.getElementById('userInput');
@@ -270,8 +286,9 @@
       loadingState.classList.remove('hidden');
 
       try {
-        const targetUrl = `${API_URL}?user=${encodeURIComponent(formattedUser)}`;
+        const targetUrl = `APIURL?user={encodeURIComponent(formattedUser)}`;
         const response = await fetch(targetUrl, { method: 'GET', redirect: 'follow' });
+
         if (!response.ok) throw new Error('erro de comunicação com o servidor.');
 
         const result = await response.json();
@@ -289,6 +306,7 @@
         }
 
         renderCards(formattedUser, result.data);
+
       } catch (err) {
         loadingState.classList.add('hidden');
         showError('ops! não conseguimos conectar com a planilha agora. verifique sua conexão ou a url da api.');
@@ -345,7 +363,7 @@
               <span>pagamentos em dia</span>
             </div>`;
 
-        const originTag = isInter ? '🌎 ceg inter • aba:' : '🇧🇷 ceg nac • aba:';
+        const originTag = isInter ? '✈️ ceg inter • aba:' : '🇧🇷 ceg nac • aba:';
 
         let paymentsHtml = '';
         if (ceg.claimsDetail && ceg.claimsDetail.length > 0) {
@@ -355,7 +373,7 @@
               const pillStyle = p.paid === false
                 ? 'bg-angel-pinkAlertBg text-angel-pinkAlertText border-angel-pinkAlert/60 font-bold'
                 : 'bg-angel-bg text-angel-text border-angel-lilac/60';
-              const icon = p.paid === false ? '⏳' : (p.paid === true ? '✓' : '•');
+              const icon = p.paid === false ? '❗' : (p.paid === true ? '✓' : '•');
               return `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs border ${pillStyle}">
                 <span>${icon}</span>
                 <span>${escapeHtml(p.label)}: ${escapeHtml(p.value)}</span>
@@ -378,8 +396,20 @@
           }
         }
 
+        // Botão de foto exibido SOMENTE nas CEGs Nacionais (e apenas para Foto do Set)
+        const photoButtonHtml = !isInter
+          ? `<div class="pt-2 flex items-center justify-center">
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-angel-lilacLight/70 text-angel-lilacText text-[11px] font-bold border border-angel-lilac/50">
+                <span>🖼️</span>
+                <span>toque para ver a foto do set</span>
+              </span>
+            </div>`
+          : '';
+
         const card = document.createElement('article');
-        card.className = `bg-white rounded-3xl overflow-hidden transition-all cursor-pointer active:scale-[0.99] ${cardBorder}`;
+        const interactionClasses = !isInter ? 'cursor-pointer active:scale-[0.99]' : 'cursor-default';
+        card.className = `bg-white rounded-3xl overflow-hidden transition-all ${interactionClasses} ${cardBorder}`;
+
         card.innerHTML = `
           <!-- Cabeçalho Pastel do Card -->
           <div class="${headerBg} px-5 py-3.5 flex items-start justify-between gap-3 border-b border-white">
@@ -396,7 +426,7 @@
 
           <!-- Corpo do Card -->
           <div class="p-5 space-y-3">
-            <!-- Itens Reivindicados (Trocado "cards:" por "itens:") -->
+            <!-- Itens Reivindicados -->
             <div class="bg-angel-bg rounded-2xl p-3.5 border border-angel-lilac/40 flex items-center justify-between gap-2">
               <div>
                 <span class="text-[11px] font-bold text-angel-muted block">seus itens reivindicados</span>
@@ -404,7 +434,7 @@
                   itens: <span class="text-angel-turquoiseDark">${escapeHtml(itemsText)}</span>
                 </p>
               </div>
-              <span class="text-xl select-none">💌</span>
+              <span class="text-xl select-none">🪪</span>
             </div>
 
             <!-- Prazo e Status de Pagamento -->
@@ -417,19 +447,15 @@
             </div>
 
             ${paymentsHtml}
-
-            <!-- Botão Indicador de Fotos -->
-            <div class="pt-2 flex items-center justify-center">
-              <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-angel-lilacLight/70 text-angel-lilacText text-[11px] font-bold border border-angel-lilac/50">
-                <span>🖼️</span>
-                <span>toque para ver a foto do ${isInter ? 'item / proof' : 'set / proof'}</span>
-              </span>
-            </div>
+            ${photoButtonHtml}
           </div>
         `;
 
-        // Evento de clique para abrir as imagens daquela CEG
-        card.addEventListener('click', () => openCegImages(ceg, itemsText));
+        // Evento de clique ativo apenas para CEGs Nacionais
+        if (!isInter) {
+          card.addEventListener('click', () => openCegImages(ceg, itemsText));
+        }
+
         cardsContainer.appendChild(card);
       });
 
@@ -437,8 +463,9 @@
     }
 
     async function openCegImages(ceg, itemsText) {
-      const isInter = ceg.origin === 'internacional';
-      modalOriginBadge.textContent = isInter ? `🌎 ceg internacional • ${ceg.sheetName}` : `🇧🇷 ceg nacional • ${ceg.sheetName}`;
+      if (ceg.origin === 'internacional') return;
+
+      modalOriginBadge.textContent = `🇧🇷 ceg nacional • ${ceg.sheetName}`;
       modalCegTitle.textContent = ceg.cegName || ceg.sheetName;
       modalItemsList.textContent = itemsText;
 
@@ -447,7 +474,7 @@
       imageModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
 
-      const cacheKey = `${ceg.origin}_${ceg.sheetName}_${JSON.stringify(ceg.claimTargets || [])}`;
+      const cacheKey = `${ceg.origin}_${ceg.sheetName}`;
       if (imageMemoryCache[cacheKey]) {
         modalLoading.classList.add('hidden');
         renderModalGallery(imageMemoryCache[cacheKey]);
@@ -456,7 +483,7 @@
 
       try {
         const targetsParam = encodeURIComponent(JSON.stringify(ceg.claimTargets || []));
-        const url = `${API_URL}?action=images&origin=${encodeURIComponent(ceg.origin || 'nacional')}&sheet=${encodeURIComponent(ceg.sheetName)}&targets=${targetsParam}`;
+        const url = `APIURL?action=images&origin=nacional&sheet={encodeURIComponent(ceg.sheetName)}&targets=${targetsParam}`;
         const res = await fetch(url, { method: 'GET', redirect: 'follow' });
         const data = await res.json();
 
@@ -478,9 +505,9 @@
       if (!images || images.length === 0) {
         modalGallery.innerHTML = `
           <div class="bg-white rounded-2xl p-6 text-center border border-angel-yellow">
-            <div class="text-2xl mb-1">🌸</div>
-            <p class="text-xs font-bold text-angel-text">nenhuma imagem disponível nesta aba ainda.</p>
-            <p class="text-[11px] text-angel-muted mt-1">assim que a gom adicionar a foto do set ou proof na planilha, ela aparecerá aqui!</p>
+            <div class="text-2xl mb-1">🖼️</div>
+            <p class="text-xs font-bold text-angel-text">nenhuma foto do set disponível nesta aba ainda.</p>
+            <p class="text-[11px] text-angel-muted mt-1">assim que a foto do set for adicionada na planilha, ela aparecerá aqui!</p>
           </div>
         `;
         return;
@@ -490,10 +517,10 @@
         <div class="bg-white rounded-2xl p-3 border border-angel-lilac/50 shadow-sm space-y-2">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs font-extrabold text-angel-lilacText bg-angel-lilacLight px-2.5 py-0.5 rounded-full">
-              📸 ${escapeHtml(img.label)}
+              ✨ ${escapeHtml(img.label)}
             </span>
             <a href="${escapeHtml(img.url)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-angel-turquoiseDark underline">
-              abrir em tela cheia ↗
+              abrir em tela cheia
             </a>
           </div>
           <img
@@ -517,3 +544,4 @@
   </script>
 </body>
 </html>
+
