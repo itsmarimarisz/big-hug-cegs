@@ -92,7 +92,7 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-angel-turquoiseLight selection:text-angel-turquoiseDark">
 
   <!-- Container Principal Mobile-First -->
-  <main class="w-full max-w-md mx-auto px-5 pt-10 pb-10 flex-grow">
+  <main class="w-full max-w-md mx-auto px-5 pt-10 pb-12 flex-grow">
 
     <!-- Cabeçalho Angelical -->
     <header class="text-center mb-8">
@@ -185,7 +185,7 @@
 
   </main>
 
-  <!-- MODAL DE IMAGENS DA CEG (Exclusivo para CEGs Nacionais - Foto do Set) -->
+  <!-- MODAL DE IMAGENS DA CEG (Fixa os itens no topo para consulta fácil!) -->
   <div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#5c546a]/40 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-soft border-2 border-angel-lilac overflow-hidden flex flex-col max-h-[88vh]">
 
@@ -213,25 +213,18 @@
         </div>
       </div>
 
-      <!-- Corpo Rolável com a Foto do Set -->
+      <!-- Corpo Rolável com as Fotos do Set / Previews -->
       <div id="modalImagesBody" class="p-5 overflow-y-auto space-y-4 flex-grow bg-angel-bg/60">
-        <!-- Estado de Carregamento das Fotos -->
-        <div id="modalLoading" class="py-10 text-center">
-          <div class="text-3xl mb-2 animate-wing">🪽</div>
-          <p class="text-xs font-bold text-angel-text">buscando a foto do set na planilha...</p>
-        </div>
-
-        <!-- Galeria de Fotos -->
         <div id="modalGallery" class="space-y-4"></div>
       </div>
 
     </div>
   </div>
 
-  <!-- Rodapé com Créditos Visíveis -->
-  <footer class="w-full text-center py-6 px-4 text-xs text-angel-text font-bold space-y-1.5 border-t border-angel-lilac/30 bg-white/50 backdrop-blur-sm">
-    <p class="text-angel-muted font-semibold">feito com 🤍 para a comunidade big hug cegs</p>
-    <p class="text-angel-lilacText font-extrabold tracking-wide">made with &lt;3 by hanniesjar and fbcrisimhere</p>
+  <!-- Rodapé Minimalista -->
+  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium space-y-1">
+    <p>feito com 🤍 para a comunidade big hug cegs</p>
+    <p>made with &lt;3 by hanniesjar and fbcrisimhere</p>
   </footer>
 
   <!-- Script Principal -->
@@ -239,7 +232,7 @@
     // ============================================================================
     // COLE A URL DO SEU WEB APP DO GOOGLE APPS SCRIPT AQUI:
     // ============================================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPIewOfAwnwQ58tmHtEob3bNBA/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPlewOfAwnwQ58tmHtEob3bNBA/exec';
 
     const searchForm = document.getElementById('searchForm');
     const userInput = document.getElementById('userInput');
@@ -259,11 +252,7 @@
     const modalOriginBadge = document.getElementById('modalOriginBadge');
     const modalCegTitle = document.getElementById('modalCegTitle');
     const modalItemsList = document.getElementById('modalItemsList');
-    const modalLoading = document.getElementById('modalLoading');
     const modalGallery = document.getElementById('modalGallery');
-
-    // Cache em memória no navegador para não recarregar fotos já abertas
-    const imageMemoryCache = {};
 
     closeModalBtn.addEventListener('click', closeImageModal);
     imageModal.addEventListener('click', (e) => {
@@ -286,7 +275,7 @@
       loadingState.classList.remove('hidden');
 
       try {
-        const targetUrl = `APIURL?user={encodeURIComponent(formattedUser)}&_t=${Date.now()}`;
+        const targetUrl = `APIURL?user={encodeURIComponent(formattedUser)}`;
         const response = await fetch(targetUrl, { method: 'GET', redirect: 'follow' });
 
         if (!response.ok) throw new Error('erro de comunicação com o servidor.');
@@ -396,19 +385,8 @@
           }
         }
 
-        // Botão de foto exibido SOMENTE nas CEGs Nacionais
-        const photoButtonHtml = !isInter
-          ? `<div class="pt-2 flex items-center justify-center">
-              <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-angel-lilacLight/70 text-angel-lilacText text-[11px] font-bold border border-angel-lilac/50">
-                <span>🖼️</span>
-                <span>toque para ver a foto do set</span>
-              </span>
-            </div>`
-          : '';
-
         const card = document.createElement('article');
-        const interactionClasses = !isInter ? 'cursor-pointer active:scale-[0.99]' : 'cursor-default';
-        card.className = `bg-white rounded-3xl overflow-hidden transition-all ${interactionClasses} ${cardBorder}`;
+        card.className = `bg-white rounded-3xl overflow-hidden transition-all cursor-pointer active:scale-[0.99] ${cardBorder}`;
 
         card.innerHTML = `
           <!-- Cabeçalho Pastel do Card -->
@@ -447,67 +425,47 @@
             </div>
 
             ${paymentsHtml}
-            ${photoButtonHtml}
+
+            <!-- Botão Indicador de Fotos -->
+            <div class="pt-2 flex items-center justify-center">
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-angel-lilacLight/70 text-angel-lilacText text-[11px] font-bold border border-angel-lilac/50">
+                <span>🖼️</span>
+                <span>toque para ver a foto do ${isInter ? 'preview' : 'set'}</span>
+              </span>
+            </div>
           </div>
         `;
 
-        // Evento de clique ativo apenas para CEGs Nacionais
-        if (!isInter) {
-          card.addEventListener('click', () => openCegImages(ceg, itemsText));
-        }
-
+        // Evento de clique para abrir as imagens daquela CEG
+        card.addEventListener('click', () => openCegImages(ceg, itemsText));
         cardsContainer.appendChild(card);
       });
 
       resultsSection.classList.remove('hidden');
     }
 
-    async function openCegImages(ceg, itemsText) {
-      if (ceg.origin === 'internacional') return;
+    function openCegImages(ceg, itemsText) {
+      const isInter = ceg.origin === 'internacional';
+      modalOriginBadge.textContent = isInter
+        ? `✈️ ceg internacional • ${ceg.sheetName}`
+        : `🇧🇷 ceg nacional • ${ceg.sheetName}`;
 
-      modalOriginBadge.textContent = `🇧🇷 ceg nacional • ${ceg.sheetName}`;
       modalCegTitle.textContent = ceg.cegName || ceg.sheetName;
       modalItemsList.textContent = itemsText;
 
-      modalGallery.innerHTML = '';
-      modalLoading.classList.remove('hidden');
+      renderModalGallery(ceg.images || [], isInter);
       imageModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-
-      const cacheKey = `${ceg.origin}_${ceg.sheetName}`;
-      if (imageMemoryCache[cacheKey]) {
-        modalLoading.classList.add('hidden');
-        renderModalGallery(imageMemoryCache[cacheKey]);
-        return;
-      }
-
-      try {
-        const targetsParam = encodeURIComponent(JSON.stringify(ceg.claimTargets || []));
-        const url = `APIURL?action=images&origin=nacional&sheet={encodeURIComponent(ceg.sheetName)}&targets=targetsParam&t={Date.now()}`;
-        const res = await fetch(url, { method: 'GET', redirect: 'follow' });
-        const data = await res.json();
-
-        modalLoading.classList.add('hidden');
-
-        if (data.status === 'success' && data.images && data.images.length > 0) {
-          imageMemoryCache[cacheKey] = data.images;
-          renderModalGallery(data.images);
-        } else {
-          renderModalGallery([]);
-        }
-      } catch (err) {
-        modalLoading.classList.add('hidden');
-        renderModalGallery([]);
-      }
     }
 
-    function renderModalGallery(images) {
+    function renderModalGallery(images, isInter) {
       if (!images || images.length === 0) {
+        const tipoFoto = isInter ? 'preview' : 'foto do set';
         modalGallery.innerHTML = `
           <div class="bg-white rounded-2xl p-6 text-center border border-angel-yellow">
             <div class="text-2xl mb-1">🖼️</div>
-            <p class="text-xs font-bold text-angel-text">nenhuma foto do set disponível nesta aba ainda.</p>
-            <p class="text-[11px] text-angel-muted mt-1">assim que a foto do set for adicionada na planilha, ela aparecerá aqui!</p>
+            <p class="text-xs font-bold text-angel-text">nenhum link de ${tipoFoto} disponível nesta aba ainda.</p>
+            <p class="text-[11px] text-angel-muted mt-1">assim que o link do drive for adicionado em "${tipoFoto}" na planilha, a imagem aparecerá aqui!</p>
           </div>
         `;
         return;
@@ -519,14 +477,17 @@
             <span class="text-xs font-extrabold text-angel-lilacText bg-angel-lilacLight px-2.5 py-0.5 rounded-full">
               ✨ ${escapeHtml(img.label)}
             </span>
-            <a href="${escapeHtml(img.url)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-angel-turquoiseDark underline">
-              abrir em tela cheia
+            <a href="${escapeHtml(img.openUrl || img.url)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-angel-turquoiseDark underline">
+              abrir no drive / tela cheia
             </a>
           </div>
           <img
             src="${escapeHtml(img.url)}"
+            data-fallback="${escapeHtml(img.fallbackUrl || '')}"
             alt="${escapeHtml(img.label)}"
             loading="lazy"
+             referrerpolicy="no-referrer"
+            onerror="if(this.dataset.fallback && this.src !== this.dataset.fallback){ this.src = this.dataset.fallback; }"
             class="w-full rounded-xl object-contain max-h-96 bg-angel-bg border border-angel-sky/40"
           />
         </div>
