@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>big hug cegs 🪽</title>
+
+  <!-- Google Fonts: Quicksand & Nunito (Arredondadas e Fofas) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'Quicksand', 'sans-serif'],
+            display: ['Quicksand', 'Nunito', 'sans-serif'],
+          },
+          colors: {
+            angel: {
+              bg: '#fdfbf9',
+              card: '#ffffff',
+              turquoise: '#72becf',
+              turquoiseDark: '#5aa6b8',
+              turquoiseLight: '#e6f6f9',
+              lilac: '#dcd3ff',
+              lilacLight: '#f4f0ff',
+              lilacText: '#6b5b95',
+              pink: '#ffd6e0',
+              pinkLight: '#fff0f4',
+              pinkAlert: '#ff8fa3',
+              pinkAlertBg: '#ffe5ec',
+              pinkAlertText: '#a43850',
+              yellow: '#fff3b0',
+              yellowLight: '#fffdf0',
+              yellowText: '#8c7632',
+              sky: '#d0ebff',
+              skyLight: '#eef8ff',
+              skyText: '#3b7197',
+              text: '#5c546a',
+              muted: '#9e96ad'
+            }
+          },
+          boxShadow: {
+            'soft': '0 10px 30px -5px rgba(114, 190, 207, 0.12), 0 4px 12px -2px rgba(220, 211, 255, 0.18)',
+            'soft-pink': '0 10px 30px -5px rgba(255, 143, 163, 0.22), 0 4px 12px -2px rgba(255, 214, 224, 0.35)',
+            'inner-soft': 'inset 0 2px 6px 0 rgba(92, 84, 106, 0.04)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #fdfbf9;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(220, 211, 255, 0.28) 0px, transparent 50%),
+        radial-gradient(at 90% 15%, rgba(208, 235, 255, 0.32) 0px, transparent 50%),
+        radial-gradient(at 50% 90%, rgba(255, 214, 224, 0.25) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: #5c546a;
+      text-transform: lowercase;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes floatWing {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(4deg); }
+    }
+
+    .animate-wing {
+      display: inline-block;
+      animation: floatWing 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(0.97); }
+    }
+
+    .animate-pulse-soft {
+      animation: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-angel-turquoiseLight selection:text-angel-turquoiseDark">
+
+  <!-- Container Principal Mobile-First -->
+  <main class="w-full max-w-md mx-auto px-5 pt-10 pb-16 flex-grow">
+
+    <!-- Cabeçalho Angelical -->
+    <header class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-angel-lilacLight border border-angel-lilac/60 text-angel-lilacText text-xs font-bold mb-3 shadow-sm">
+        <span>☁️</span>
+        <span>portal de consultas</span>
+        <span>✨</span>
+      </div>
+
+      <h1 class="font-display text-3xl font-bold tracking-tight text-angel-text flex items-center justify-center gap-2">
+        <span>big hug cegs</span>
+        <span class="animate-wing text-3xl">🪽</span>
+      </h1>
+      <p class="text-sm text-angel-muted mt-1.5 font-medium">
+        acompanhe seus claims, status e pagamentos com carinho
+      </p>
+    </header>
+
+    <!-- Card de Busca -->
+    <section class="bg-white/90 backdrop-blur-md rounded-3xl p-5 shadow-soft border border-white mb-7">
+      <form id="searchForm" class="flex flex-col gap-3">
+        <label for="userInput" class="text-xs font-bold text-angel-muted pl-2 flex items-center gap-1.5">
+          <span>🫧</span>
+          <span>qual é o seu user na planilha?</span>
+        </label>
+
+        <div class="relative flex items-center">
+          <span class="absolute left-4 text-angel-turquoise font-bold text-lg select-none">@</span>
+          <input
+            type="text"
+            id="userInput"
+            placeholder="digite seu @ (ex: @seuuser)"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-angel-bg border-2 border-angel-sky/70 focus:border-angel-turquoise focus:bg-white focus:outline-none text-angel-text placeholder-angel-muted/60 text-sm font-semibold transition-all shadow-inner-soft lowercase"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          id="submitBtn"
+          class="w-full py-3.5 px-6 rounded-2xl bg-[#72becf] hover:bg-angel-turquoiseDark active:scale-[0.98] text-white font-bold text-sm shadow-md shadow-angel-turquoise/25 transition-all flex items-center justify-center gap-2 mt-1"
+        >
+          <span>buscar minhas cegs</span>
+          <span>🪽</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Estado de Loading Fofo -->
+    <section id="loadingState" class="hidden py-12 text-center">
+      <div class="inline-flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm px-8 py-7 rounded-3xl shadow-soft border border-angel-lilac/40 animate-pulse-soft">
+        <div class="text-4xl mb-3 animate-wing">🪽</div>
+        <p class="text-sm font-bold text-angel-text">batendo as asinhas pela planilha...</p>
+        <p class="text-xs text-angel-muted mt-1">procurando seus photocards e itens ✨</p>
+      </div>
+    </section>
+
+    <!-- Mensagem de Erro / Aviso -->
+    <section id="errorState" class="hidden">
+      <div class="bg-angel-pinkLight border-2 border-angel-pink rounded-3xl p-5 text-center shadow-sm">
+        <div class="text-2xl mb-2">🥺</div>
+        <p id="errorMessage" class="text-sm font-bold text-angel-pinkAlertText"></p>
+      </div>
+    </section>
+
+    <!-- Estado Vazio (Nenhuma CEG encontrada) -->
+    <section id="emptyState" class="hidden">
+      <div class="bg-white/90 rounded-3xl p-7 text-center shadow-soft border border-angel-yellow">
+        <div class="text-3xl mb-2">☁️</div>
+        <p class="text-sm font-bold text-angel-text">nenhuma ceg encontrada para <span id="emptyUserSpan" class="text-angel-turquoise"></span></p>
+        <p class="text-xs text-angel-muted mt-1.5 leading-relaxed">
+          verifique se digitou seu @ certinho como está na planilha ou se você já possui claims registrados.
+        </p>
+      </div>
+    </section>
+
+    <!-- Resumo + Lista de Cards -->
+    <section id="resultsSection" class="hidden space-y-4">
+      <div class="flex items-center justify-between px-2 mb-2">
+        <p class="text-xs font-bold text-angel-muted">
+          resultados para <span id="resultUserBadge" class="text-angel-turquoiseDark bg-angel-turquoiseLight px-2.5 py-0.5 rounded-full"></span>
+        </p>
+        <span id="resultCountBadge" class="text-xs font-bold bg-angel-lilacLight text-angel-lilacText px-2.5 py-0.5 rounded-full"></span>
+      </div>
+
+      <div id="cardsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé Minimalista -->
+  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium">
+    <p>feito com 🩵 para a comunidade big hug cegs 🪽</p>
+  </footer>
+
+  <!-- Script Principal -->
+  <script>
+    // =========================================================================
+    // COLE A URL DO SEU WEB APP DO GOOGLE APPS SCRIPT AQUI:
+    // =========================================================================
+    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPIewOfAwnwQ58tmHtEob3bNBA/exec';
+
+    const searchForm = document.getElementById('searchForm');
+    const userInput = document.getElementById('userInput');
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const errorMessage = document.getElementById('errorMessage');
+    const emptyState = document.getElementById('emptyState');
+    const emptyUserSpan = document.getElementById('emptyUserSpan');
+    const resultsSection = document.getElementById('resultsSection');
+    const resultUserBadge = document.getElementById('resultUserBadge');
+    const resultCountBadge = document.getElementById('resultCountBadge');
+    const cardsContainer = document.getElementById('cardsContainer');
+
+    searchForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rawQuery = userInput.value.trim().toLowerCase();
+      if (!rawQuery) return;
+
+      const formattedUser = rawQuery.startsWith('@') ? rawQuery : `@${rawQuery}`;
+
+      // Reset UI
+      hideAllStates();
+      loadingState.classList.remove('hidden');
+
+      // Validação caso ainda não tenha colocado a URL da API
+      if (!API_URL || API_URL === 'SUA_URL_AQUI') {
+        setTimeout(() => {
+          loadingState.classList.add('hidden');
+          showError('a url da planilha ainda não foi configurada na variável api_url do código html.');
+        }, 600);
+        return;
+      }
+
+      try {
+        const targetUrl = `${API_URL}?user=${encodeURIComponent(formattedUser)}`;
+        const response = await fetch(targetUrl, {
+          method: 'GET',
+          redirect: 'follow'
+        });
+
+        if (!response.ok) {
+          throw new Error('erro de comunicação com o servidor.');
+        }
+
+        const result = await response.json();
+        loadingState.classList.add('hidden');
+
+        if (result.status === 'error') {
+          showError(result.message || 'não foi possível buscar seus dados.');
+          return;
+        }
+
+        if (!result.data || result.data.length === 0) {
+          emptyUserSpan.textContent = formattedUser;
+          emptyState.classList.remove('hidden');
+          return;
+        }
+
+        renderCards(formattedUser, result.data);
+
+      } catch (err) {
+        loadingState.classList.add('hidden');
+        showError('ops! não conseguimos conectar com a planilha agora. verifique sua conexão ou a url da api.');
+        console.error(err);
+      }
+    });
+
+    function hideAllStates() {
+      loadingState.classList.add('hidden');
+      errorState.classList.add('hidden');
+      emptyState.classList.add('hidden');
+      resultsSection.classList.add('hidden');
+      cardsContainer.innerHTML = '';
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorState.classList.remove('hidden');
+    }
+
+    // Formata array ["16", "18", "20"] para "16, 18 e 20"
+    function formatItemsNatural(itemsArray) {
+      const clean = itemsArray.map(i => i.toString().trim()).filter(Boolean);
+      if (clean.length === 0) return 'nenhum número especificado';
+      if (clean.length === 1) return clean[0];
+      if (clean.length === 2) return `${clean[0]} e ${clean[1]}`;
+      return `${clean.slice(0, -1).join(', ')} e ${clean[clean.length - 1]}`;
+    }
+
+    function renderCards(userHandle, cegsList) {
+      resultUserBadge.textContent = userHandle;
+      resultCountBadge.textContent = cegsList.length === 1 ? '1 ceg ativa' : `${cegsList.length} cegs ativas`;
+
+      cegsList.forEach(ceg => {
+        const isPending = Boolean(ceg.isPending);
+        const itemsText = formatItemsNatural(ceg.items || []);
+
+        // Estilo condicional caso exista pagamento pendente (Pg? = FALSE)
+        const cardBorder = isPending 
+          ? 'border-2 border-angel-pinkAlert shadow-soft-pink' 
+          : 'border border-angel-sky/80 shadow-soft';
+
+        const headerBg = isPending
+          ? 'bg-angel-pinkAlertBg/70'
+          : 'bg-gradient-to-r from-angel-skyLight via-angel-lilacLight/50 to-angel-pinkLight/50';
+
+        const paymentStatusBadge = isPending
+          ? `<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-angel-pinkAlertBg text-angel-pinkAlertText text-xs font-extrabold border border-angel-pinkAlert/50">
+               <span>⚠️</span>
+               <span>pagamento pendente</span>
+             </div>`
+          : `<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-angel-turquoiseLight text-angel-turquoiseDark text-xs font-bold">
+               <span>✨</span>
+               <span>pagamentos em dia</span>
+             </div>`;
+
+        // Monta detalhes das parcelas/valores
+        let paymentsHtml = '';
+        if (ceg.claimsDetail && ceg.claimsDetail.length > 0) {
+          const rowsHtml = ceg.claimsDetail.map(claim => {
+            if (!claim.payments || claim.payments.length === 0) return '';
+            const pills = claim.payments.map(p => {
+              const pillStyle = p.paid === false
+                ? 'bg-angel-pinkAlertBg text-angel-pinkAlertText border-angel-pinkAlert/60 font-bold'
+                : 'bg-angel-bg text-angel-text border-angel-lilac/60';
+
+              const icon = p.paid === false ? '⏳' : (p.paid === true ? '✓' : '•');
+              return `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs border ${pillStyle}">
+                        <span>${icon}</span>
+                        <span>${escapeHtml(p.label)}: ${escapeHtml(p.value)}</span>
+                      </span>`;
+            }).join('');
+
+            return `<div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                      <span class="text-[11px] font-bold text-angel-muted mr-1">item ${escapeHtml(claim.item)}:</span>
+                      ${pills}
+                    </div>`;
+          }).join('');
+
+          if (rowsHtml.trim() !== '') {
+            paymentsHtml = `
+              <div class="mt-3 pt-3 border-t border-angel-bg">
+                <p class="text-[11px] font-bold text-angel-muted mb-1">detalhes financeiros:</p>
+                ${rowsHtml}
+              </div>
+            `;
+          }
+        }
+
+        const card = document.createElement('article');
+        card.className = `bg-white rounded-3xl overflow-hidden transition-all ${cardBorder}`;
+
+        card.innerHTML = `
+          <!-- Cabeçalho Pastel do Card -->
+          <div class="${headerBg} px-5 py-3.5 flex items-start justify-between gap-3 border-b border-white">
+            <div>
+              <span class="text-[10px] font-extrabold tracking-wider text-angel-muted block">aba: ${escapeHtml(ceg.sheetName)}</span>
+              <h2 class="font-display text-base font-bold text-angel-text leading-snug">
+                ${escapeHtml(ceg.cegName || ceg.sheetName)}
+              </h2>
+            </div>
+            <span class="shrink-0 px-3 py-1 rounded-full bg-angel-yellowLight border border-angel-yellow text-angel-yellowText text-xs font-bold shadow-sm">
+              📦 ${escapeHtml(ceg.status || 'em andamento')}
+            </span>
+          </div>
+
+          <!-- Corpo do Card -->
+          <div class="p-5 space-y-3">
+            <!-- Itens Reivindicados -->
+            <div class="bg-angel-bg rounded-2xl p-3.5 border border-angel-lilac/40 flex items-center justify-between gap-2">
+              <div>
+                <span class="text-[11px] font-bold text-angel-muted block">seus itens reivindicados</span>
+                <p class="text-sm font-extrabold text-angel-text mt-0.5">
+                  cards: <span class="text-angel-turquoiseDark">${escapeHtml(itemsText)}</span>
+                </p>
+              </div>
+              <span class="text-xl select-none">🃏</span>
+            </div>
+
+            <!-- Prazo e Status de Pagamento -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+              <div class="text-xs text-angel-muted font-semibold flex items-center gap-1">
+                <span>🗓️ prazo:</span>
+                <span class="text-angel-text font-bold">${escapeHtml(ceg.deadline || 'a definir')}</span>
+              </div>
+              ${paymentStatusBadge}
+            </div>
+
+            ${paymentsHtml}
+          </div>
+        `;
+
+        cardsContainer.appendChild(card);
+      });
+
+      resultsSection.classList.remove('hidden');
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
