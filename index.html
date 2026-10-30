@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>big hug cegs</title>
-
   <!-- Google Fonts: Quicksand & Nunito (Arredondadas e Fofas) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -54,7 +52,6 @@
       }
     }
   </script>
-
   <style>
     body {
       background-color: #fdfbf9;
@@ -67,33 +64,27 @@
       text-transform: lowercase;
       -webkit-tap-highlight-color: transparent;
     }
-
     @keyframes floatWing {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-5px) rotate(4deg); }
     }
-
     .animate-wing {
       display: inline-block;
       animation: floatWing 3s ease-in-out infinite;
     }
-
     @keyframes pulseSoft {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.65; transform: scale(0.97); }
     }
-
     .animate-pulse-soft {
       animation: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
   </style>
 </head>
-
 <body class="min-h-screen flex flex-col justify-between selection:bg-angel-turquoiseLight selection:text-angel-turquoiseDark">
 
   <!-- Container Principal Mobile-First -->
-  <main class="w-full max-w-md mx-auto px-5 pt-10 pb-12 flex-grow">
-
+  <main class="w-full max-w-md mx-auto px-5 pt-10 pb-16 flex-grow">
     <!-- Cabeçalho Angelical -->
     <header class="text-center mb-8">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-angel-lilacLight border border-angel-lilac/60 text-angel-lilacText text-xs font-bold mb-3 shadow-sm">
@@ -117,7 +108,6 @@
           <span>🔍</span>
           <span>qual é o seu user na planilha?</span>
         </label>
-
         <div class="relative flex items-center">
           <span class="absolute left-4 text-angel-turquoise font-bold text-lg select-none">@</span>
           <input
@@ -131,7 +121,6 @@
             required
           />
         </div>
-
         <button
           type="submit"
           id="submitBtn"
@@ -179,17 +168,13 @@
         </p>
         <span id="resultCountBadge" class="text-xs font-bold bg-angel-lilacLight text-angel-lilacText px-2.5 py-0.5 rounded-full"></span>
       </div>
-
       <div id="cardsContainer" class="space-y-4"></div>
     </section>
-
   </main>
 
-  <!-- MODAL DE IMAGENS DA CEG (Fixa os itens no topo para consulta fácil!) -->
+  <!-- MODAL DE IMAGENS DA CEG -->
   <div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#5c546a]/40 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-soft border-2 border-angel-lilac overflow-hidden flex flex-col max-h-[88vh]">
-
-      <!-- Topo Fixo do Modal: Nome da CEG + Seus Itens em Destaque -->
       <div class="bg-gradient-to-r from-angel-skyLight via-angel-lilacLight/60 to-angel-pinkLight/60 px-5 py-4 border-b border-angel-lilac/40 shrink-0">
         <div class="flex items-start justify-between gap-2">
           <div>
@@ -200,11 +185,9 @@
             ✕
           </button>
         </div>
-
-        <!-- Barra Fixa com os números/itens que a pessoa pegou -->
         <div class="mt-3 bg-white/90 rounded-2xl px-3.5 py-2.5 border border-angel-turquoise/40 shadow-inner-soft flex items-center justify-between gap-2">
           <div>
-            <span class="text-[10px] font-bold text-angel-muted block">seus itens nesta ceg (para conferir na foto):</span>
+            <span class="text-[10px] font-bold text-angel-muted block">seus itens nesta ceg:</span>
             <p class="text-sm font-extrabold text-angel-text mt-0.5">
               itens: <span id="modalItemsList" class="text-angel-turquoiseDark"></span>
             </p>
@@ -212,28 +195,21 @@
           <span class="text-lg select-none">🪪</span>
         </div>
       </div>
-
-      <!-- Corpo Rolável com as Fotos do Set / Previews -->
       <div id="modalImagesBody" class="p-5 overflow-y-auto space-y-4 flex-grow bg-angel-bg/60">
         <div id="modalGallery" class="space-y-4"></div>
       </div>
-
     </div>
   </div>
 
-  <!-- Rodapé Minimalista -->
-  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium space-y-1">
-    <p>feito com 🤍 para a comunidade big hug cegs</p>
-    <p>made with &lt;3 by hanniesjar and fbcrisimhere</p>
+  <!-- Rodapé com Créditos Atualizados -->
+  <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium space-y-1 border-t border-angel-lilac/30 bg-white/40">
+    <p>feito com ❤️ para a comunidade big hug</p>
+    <p class="text-angel-lilacText font-bold">made with &lt;3 by hanniesjar and fbcrisimhere</p>
   </footer>
 
   <!-- Script Principal -->
   <script>
-    // ============================================================================
-    // COLE A URL DO SEU WEB APP DO GOOGLE APPS SCRIPT AQUI:
-    // ============================================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPIewOfAwnwQ58tmHtEob3bNBA/exec';
-
+    const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPlewOfAwnwQ58tmHtEob3bNBA/exec';
     const searchForm = document.getElementById('searchForm');
     const userInput = document.getElementById('userInput');
     const loadingState = document.getElementById('loadingState');
@@ -246,7 +222,6 @@
     const resultCountBadge = document.getElementById('resultCountBadge');
     const cardsContainer = document.getElementById('cardsContainer');
 
-    // Elementos do Modal de Imagens
     const imageModal = document.getElementById('imageModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const modalOriginBadge = document.getElementById('modalOriginBadge');
@@ -268,33 +243,56 @@
       e.preventDefault();
       const rawQuery = userInput.value.trim().toLowerCase();
       if (!rawQuery) return;
-
       const formattedUser = rawQuery.startsWith('@') ? rawQuery : `@${rawQuery}`;
 
       hideAllStates();
       loadingState.classList.remove('hidden');
 
+      if (!API_URL || API_URL === 'SUA_URL_AQUI') {
+        setTimeout(() => {
+          loadingState.classList.add('hidden');
+          showError('a url da planilha ainda não foi configurada na variável api_url do código html.');
+        }, 600);
+        return;
+      }
+
       try {
-        const targetUrl = `APIURL?user={encodeURIComponent(formattedUser)}`;
-        const response = await fetch(targetUrl, { method: 'GET', redirect: 'follow' });
-
-        if (!response.ok) throw new Error('erro de comunicação com o servidor.');
-
-        const result = await response.json();
-        loadingState.classList.add('hidden');
-
-        if (result.status === 'error') {
-          showError(result.message || 'não foi possível buscar seus dados.');
-          return;
+        const urlsToFetch = [API_URL];
+        if (API_URL_INTER && API_URL_INTER.trim() !== '') {
+          urlsToFetch.push(API_URL_INTER.trim());
         }
 
-        if (!result.data || result.data.length === 0) {
+        const responses = await Promise.all(
+          urlsToFetch.map(url =>
+            fetch(`url?user={encodeURIComponent(formattedUser)}`, {
+              method: 'GET',
+              redirect: 'follow'
+            }).then(res => {
+              if (!res.ok) throw new Error('erro de comunicação com o servidor.');
+              return res.json();
+            })
+          )
+        );
+
+        loadingState.classList.add('hidden');
+        let combinedData = [];
+        for (const res of responses) {
+          if (res.status === 'error') {
+            showError(res.message || 'não foi possível buscar seus dados.');
+            return;
+          }
+          if (res.data && Array.isArray(res.data)) {
+            combinedData = combinedData.concat(res.data);
+          }
+        }
+
+        if (combinedData.length === 0) {
           emptyUserSpan.textContent = formattedUser;
           emptyState.classList.remove('hidden');
           return;
         }
 
-        renderCards(formattedUser, result.data);
+        renderCards(formattedUser, combinedData);
 
       } catch (err) {
         loadingState.classList.add('hidden');
@@ -316,7 +314,6 @@
       errorState.classList.remove('hidden');
     }
 
-    // Formata array ["16", "18", "20"] para "16, 18 e 20"
     function formatItemsNatural(itemsArray) {
       const clean = itemsArray.map(i => i.toString().trim()).filter(Boolean);
       if (clean.length === 0) return 'nenhum item especificado';
@@ -335,8 +332,8 @@
         const isInter = ceg.origin === 'internacional';
 
         const cardBorder = isPending
-          ? 'border-2 border-angel-pinkAlert shadow-soft-pink hover:scale-[1.01]'
-          : 'border border-angel-sky/80 shadow-soft hover:border-angel-turquoise hover:scale-[1.01]';
+          ? 'border-2 border-angel-pinkAlert shadow-soft-pink'
+          : 'border border-angel-sky/80 shadow-soft';
 
         const headerBg = isPending
           ? 'bg-angel-pinkAlertBg/70'
@@ -436,7 +433,6 @@
           </div>
         `;
 
-        // Evento de clique para abrir as imagens daquela CEG
         card.addEventListener('click', () => openCegImages(ceg, itemsText));
         cardsContainer.appendChild(card);
       });
@@ -459,8 +455,8 @@
     }
 
     function renderModalGallery(images, isInter) {
+      const tipoFoto = isInter ? 'preview' : 'foto do set';
       if (!images || images.length === 0) {
-        const tipoFoto = isInter ? 'preview' : 'foto do set';
         modalGallery.innerHTML = `
           <div class="bg-white rounded-2xl p-6 text-center border border-angel-yellow">
             <div class="text-2xl mb-1">🖼️</div>
@@ -475,7 +471,7 @@
         <div class="bg-white rounded-2xl p-3 border border-angel-lilac/50 shadow-sm space-y-2">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs font-extrabold text-angel-lilacText bg-angel-lilacLight px-2.5 py-0.5 rounded-full">
-              ✨ ${escapeHtml(img.label)}
+              ✨ ${escapeHtml(img.label || tipoFoto)}
             </span>
             <a href="${escapeHtml(img.openUrl || img.url)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-angel-turquoiseDark underline">
               abrir no drive / tela cheia
@@ -484,9 +480,9 @@
           <img
             src="${escapeHtml(img.url)}"
             data-fallback="${escapeHtml(img.fallbackUrl || '')}"
-            alt="${escapeHtml(img.label)}"
+            alt="${escapeHtml(img.label || tipoFoto)}"
             loading="lazy"
-             referrerpolicy="no-referrer"
+            referrerpolicy="no-referrer"
             onerror="if(this.dataset.fallback && this.src !== this.dataset.fallback){ this.src = this.dataset.fallback; }"
             class="w-full rounded-xl object-contain max-h-96 bg-angel-bg border border-angel-sky/40"
           />
