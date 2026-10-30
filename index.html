@@ -171,6 +171,48 @@
     </section>
   </main>
 
+  <!-- MODAL DE IMAGENS DA CEG (Fixa os itens no topo para consulta fácil!) -->
+  <div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#5c546a]/40 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-soft border-2 border-angel-lilac overflow-hidden flex flex-col max-h-[88vh]">
+      
+      <!-- Topo Fixo do Modal: Nome da CEG + Seus Itens em Destaque -->
+      <div class="bg-gradient-to-r from-angel-skyLight via-angel-lilacLight/60 to-angel-pinkLight/60 px-5 py-4 border-b border-angel-lilac/40 shrink-0">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <span id="modalOriginBadge" class="text-[10px] font-extrabold text-angel-muted block"></span>
+            <h3 id="modalCegTitle" class="font-display text-lg font-bold text-angel-text leading-tight"></h3>
+          </div>
+          <button id="closeModalBtn" type="button" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-angel-text font-bold flex items-center justify-center shadow-sm active:scale-95 transition-all">
+            ✕
+          </button>
+        </div>
+
+        <!-- Barra Fixa com os números/itens que a pessoa pegou -->
+        <div class="mt-3 bg-white/90 rounded-2xl px-3.5 py-2.5 border border-angel-turquoise/40 shadow-inner-soft flex items-center justify-between gap-2">
+          <div>
+            <span class="text-[10px] font-bold text-angel-muted block">seus itens nesta ceg (para conferir na foto):</span>
+            <p class="text-sm font-extrabold text-angel-text mt-0.5">
+              itens: <span id="modalItemsList" class="text-angel-turquoiseDark"></span>
+            </p>
+          </div>
+          <span class="text-lg select-none">🔍</span>
+        </div>
+      </div>
+
+      <!-- Corpo Rolável com as Fotos do Set / Previews / Proofs -->
+      <div id="modalImagesBody" class="p-5 overflow-y-auto space-y-4 flex-grow bg-angel-bg/60">
+        <!-- Estado de Carregamento das Fotos -->
+        <div id="modalLoading" class="py-10 text-center">
+          <div class="text-3xl mb-2 animate-wing">🪽</div>
+          <p class="text-xs font-bold text-angel-text">buscando as fotos na planilha...</p>
+        </div>
+        <!-- Galeria de Fotos -->
+        <div id="modalGallery" class="space-y-4"></div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Rodapé Minimalista -->
   <footer class="text-center py-5 text-xs text-angel-muted/80 font-medium">
     <p>feito com 🩵 para a comunidade big hug cegs</p>
@@ -179,12 +221,10 @@
   <!-- Script Principal -->
   <script>
     // ============================================================================
-    // URL DO SEU WEB APP DO GOOGLE APPS SCRIPT:
-    // (Se você colocou o ID da planilha Inter dentro do mesmo script, só precisa da API_URL principal!)
-    // (Se preferir criar 2 scripts separados, basta colar a 2ª URL em API_URL_INTER)
+    // COLE A URL DO SEU WEB APP DO GOOGLE APPS SCRIPT AQUI:
     // ============================================================================
     const API_URL = 'https://script.google.com/macros/s/AKfycbziGogEBW2iOm_SMxRCeHtgsm7p-4DrXH091NsfsKkkkPlewOfAwnwQ58tmHtEob3bNBA/exec';
-  
+
     const searchForm = document.getElementById('searchForm');
     const userInput = document.getElementById('userInput');
     const loadingState = document.getElementById('loadingState');
@@ -197,6 +237,28 @@
     const resultCountBadge = document.getElementById('resultCountBadge');
     const cardsContainer = document.getElementById('cardsContainer');
 
+    // Elementos do Modal de Imagens
+    const imageModal = document.getElementById('imageModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalOriginBadge = document.getElementById('modalOriginBadge');
+    const modalCegTitle = document.getElementById('modalCegTitle');
+    const modalItemsList = document.getElementById('modalItemsList');
+    const modalLoading = document.getElementById('modalLoading');
+    const modalGallery = document.getElementById('modalGallery');
+
+    // Cache em memória no navegador para não recarregar fotos já abertas
+    const imageMemoryCache = {};
+
+    closeModalBtn.addEventListener('click', closeImageModal);
+    imageModal.addEventListener('click', (e) => {
+      if (e.target === imageModal) closeImageModal();
+    });
+
+    function closeImageModal() {
+      imageModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
     searchForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const rawQuery = userInput.value.trim().toLowerCase();
@@ -204,56 +266,29 @@
 
       const formattedUser = rawQuery.startsWith('@') ? rawQuery : `@${rawQuery}`;
 
-      // Reset UI
       hideAllStates();
       loadingState.classList.remove('hidden');
 
-      if (!API_URL || API_URL === 'SUA_URL_AQUI') {
-        setTimeout(() => {
-          loadingState.classList.add('hidden');
-          showError('a url da planilha ainda não foi configurada na variável api_url do código html.');
-        }, 600);
-        return;
-      }
-
       try {
-        const urlsToFetch = [API_URL];
-        if (API_URL_INTER && API_URL_INTER.trim() !== '') {
-          urlsToFetch.push(API_URL_INTER.trim());
-        }
+        const targetUrl = `${API_URL}?user=${encodeURIComponent(formattedUser)}`;
+        const response = await fetch(targetUrl, { method: 'GET', redirect: 'follow' });
+        if (!response.ok) throw new Error('erro de comunicação com o servidor.');
 
-        const responses = await Promise.all(
-          urlsToFetch.map(url =>
-            fetch(`${url}?user=${encodeURIComponent(formattedUser)}`, {
-              method: 'GET',
-              redirect: 'follow'
-            }).then(res => {
-              if (!res.ok) throw new Error('erro de comunicação com o servidor.');
-              return res.json();
-            })
-          )
-        );
-
+        const result = await response.json();
         loadingState.classList.add('hidden');
 
-        let combinedData = [];
-        for (const res of responses) {
-          if (res.status === 'error') {
-            showError(res.message || 'não foi possível buscar seus dados.');
-            return;
-          }
-          if (res.data && Array.isArray(res.data)) {
-            combinedData = combinedData.concat(res.data);
-          }
+        if (result.status === 'error') {
+          showError(result.message || 'não foi possível buscar seus dados.');
+          return;
         }
 
-        if (combinedData.length === 0) {
+        if (!result.data || result.data.length === 0) {
           emptyUserSpan.textContent = formattedUser;
           emptyState.classList.remove('hidden');
           return;
         }
 
-        renderCards(formattedUser, combinedData);
+        renderCards(formattedUser, result.data);
       } catch (err) {
         loadingState.classList.add('hidden');
         showError('ops! não conseguimos conectar com a planilha agora. verifique sua conexão ou a url da api.');
@@ -292,10 +327,9 @@
         const itemsText = formatItemsNatural(ceg.items || []);
         const isInter = ceg.origin === 'internacional';
 
-        // Estilo condicional caso exista pagamento pendente (Pg? = FALSE)
         const cardBorder = isPending
-          ? 'border-2 border-angel-pinkAlert shadow-soft-pink'
-          : 'border border-angel-sky/80 shadow-soft';
+          ? 'border-2 border-angel-pinkAlert shadow-soft-pink hover:scale-[1.01]'
+          : 'border border-angel-sky/80 shadow-soft hover:border-angel-turquoise hover:scale-[1.01]';
 
         const headerBg = isPending
           ? 'bg-angel-pinkAlertBg/70'
@@ -313,7 +347,6 @@
 
         const originTag = isInter ? '🌎 ceg inter • aba:' : '🇧🇷 ceg nac • aba:';
 
-        // Monta detalhes das parcelas/valores
         let paymentsHtml = '';
         if (ceg.claimsDetail && ceg.claimsDetail.length > 0) {
           const rowsHtml = ceg.claimsDetail.map(claim => {
@@ -346,7 +379,7 @@
         }
 
         const card = document.createElement('article');
-        card.className = `bg-white rounded-3xl overflow-hidden transition-all ${cardBorder}`;
+        card.className = `bg-white rounded-3xl overflow-hidden transition-all cursor-pointer active:scale-[0.99] ${cardBorder}`;
         card.innerHTML = `
           <!-- Cabeçalho Pastel do Card -->
           <div class="${headerBg} px-5 py-3.5 flex items-start justify-between gap-3 border-b border-white">
@@ -363,7 +396,7 @@
 
           <!-- Corpo do Card -->
           <div class="p-5 space-y-3">
-            <!-- Itens Reivindicados -->
+            <!-- Itens Reivindicados (Trocado "cards:" por "itens:") -->
             <div class="bg-angel-bg rounded-2xl p-3.5 border border-angel-lilac/40 flex items-center justify-between gap-2">
               <div>
                 <span class="text-[11px] font-bold text-angel-muted block">seus itens reivindicados</span>
@@ -384,12 +417,93 @@
             </div>
 
             ${paymentsHtml}
+
+            <!-- Botão Indicador de Fotos -->
+            <div class="pt-2 flex items-center justify-center">
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-angel-lilacLight/70 text-angel-lilacText text-[11px] font-bold border border-angel-lilac/50">
+                <span>🖼️</span>
+                <span>toque para ver a foto do ${isInter ? 'item / proof' : 'set / proof'}</span>
+              </span>
+            </div>
           </div>
         `;
+
+        // Evento de clique para abrir as imagens daquela CEG
+        card.addEventListener('click', () => openCegImages(ceg, itemsText));
         cardsContainer.appendChild(card);
       });
 
       resultsSection.classList.remove('hidden');
+    }
+
+    async function openCegImages(ceg, itemsText) {
+      const isInter = ceg.origin === 'internacional';
+      modalOriginBadge.textContent = isInter ? `🌎 ceg internacional • ${ceg.sheetName}` : `🇧🇷 ceg nacional • ${ceg.sheetName}`;
+      modalCegTitle.textContent = ceg.cegName || ceg.sheetName;
+      modalItemsList.textContent = itemsText;
+
+      modalGallery.innerHTML = '';
+      modalLoading.classList.remove('hidden');
+      imageModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      const cacheKey = `${ceg.origin}_${ceg.sheetName}_${JSON.stringify(ceg.claimTargets || [])}`;
+      if (imageMemoryCache[cacheKey]) {
+        modalLoading.classList.add('hidden');
+        renderModalGallery(imageMemoryCache[cacheKey]);
+        return;
+      }
+
+      try {
+        const targetsParam = encodeURIComponent(JSON.stringify(ceg.claimTargets || []));
+        const url = `${API_URL}?action=images&origin=${encodeURIComponent(ceg.origin || 'nacional')}&sheet=${encodeURIComponent(ceg.sheetName)}&targets=${targetsParam}`;
+        const res = await fetch(url, { method: 'GET', redirect: 'follow' });
+        const data = await res.json();
+
+        modalLoading.classList.add('hidden');
+
+        if (data.status === 'success' && data.images) {
+          imageMemoryCache[cacheKey] = data.images;
+          renderModalGallery(data.images);
+        } else {
+          renderModalGallery([]);
+        }
+      } catch (err) {
+        modalLoading.classList.add('hidden');
+        renderModalGallery([]);
+      }
+    }
+
+    function renderModalGallery(images) {
+      if (!images || images.length === 0) {
+        modalGallery.innerHTML = `
+          <div class="bg-white rounded-2xl p-6 text-center border border-angel-yellow">
+            <div class="text-2xl mb-1">🌸</div>
+            <p class="text-xs font-bold text-angel-text">nenhuma imagem disponível nesta aba ainda.</p>
+            <p class="text-[11px] text-angel-muted mt-1">assim que a gom adicionar a foto do set ou proof na planilha, ela aparecerá aqui!</p>
+          </div>
+        `;
+        return;
+      }
+
+      modalGallery.innerHTML = images.map(img => `
+        <div class="bg-white rounded-2xl p-3 border border-angel-lilac/50 shadow-sm space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-xs font-extrabold text-angel-lilacText bg-angel-lilacLight px-2.5 py-0.5 rounded-full">
+              📸 ${escapeHtml(img.label)}
+            </span>
+            <a href="${escapeHtml(img.url)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-angel-turquoiseDark underline">
+              abrir em tela cheia ↗
+            </a>
+          </div>
+          <img
+            src="${escapeHtml(img.url)}"
+            alt="${escapeHtml(img.label)}"
+            loading="lazy"
+            class="w-full rounded-xl object-contain max-h-96 bg-angel-bg border border-angel-sky/40"
+          />
+        </div>
+      `).join('');
     }
 
     function escapeHtml(str) {
